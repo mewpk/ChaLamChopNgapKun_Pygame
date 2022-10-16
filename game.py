@@ -71,8 +71,8 @@ class Game():
             # Render current state to the screen
             self.screen.blit(pygame.transform.scale(self.game_canvas,(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)), (0,0))
             pygame.display.flip()
-
-
+        
+            
         def get_dt(self):
             now = time.time()
             self.dt = now - self.prev_time
@@ -88,6 +88,7 @@ class Game():
         def load_assets(self):
             # Create pointers to directories 
             self.assets_dir = os.path.join("assets")
+            self.logo_dir = os.path.join(self.assets_dir, "logo")
             self.sprite_dir = os.path.join(self.assets_dir, "sprites")
             self.font_dir = os.path.join(self.assets_dir, "font")
             self.font= pygame.font.Font(os.path.join(self.font_dir, "PressStart2P-vaV7.ttf"), 20)
