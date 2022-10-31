@@ -1,5 +1,3 @@
-from json import load
-from msilib.schema import Class
 import pygame
 import os
 from states.state import State
@@ -10,9 +8,8 @@ class Game_World(State):
     def __init__(self, game):
         State.__init__(self, game)
         self.player = Player(self.game)
-        self.bg_img = pygame.image.load(os.path.join(
-            self.game.assets_dir, "map", "bg.png"))
-
+        self.bg_img = pygame.image.load(os.path.join(self.game.assets_dir, "map", "MapEx.png"))
+ 
     def update(self, delta_time, actions):
         # Check if the game was paused
         if actions["start"]:
