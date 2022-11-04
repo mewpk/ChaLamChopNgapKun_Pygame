@@ -8,7 +8,7 @@ class Game_World(State):
     def __init__(self, game):
         State.__init__(self, game)
         self.player = Player(self.game)
-        self.bg_img = pygame.image.load(os.path.join(self.game.assets_dir, "map", "MapEx.png"))
+        self.bg_img = pygame.image.load(os.path.join(self.game.assets_dir, "map", "Map.png"))
  
     def update(self, delta_time, actions):
         # Check if the game was paused
