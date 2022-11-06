@@ -19,7 +19,7 @@ class Title(State):
         self.logo_image = pygame.image.load(os.path.join(self.logo_dir, "Shark.png"))
     def render(self, display):
         display.fill((255,255,255))
-        self.game.draw_text(display, "Cha Lam Chop Ngap Kun", (0,0,0), self.game.GAME_W/2, self.game.GAME_H/2 )
+        self.game.draw_text(display, "Cha Lam Chop Ngap Kun", (0,0,0), self.game.GAME_W/2, self.game.GAME_H/2,20 )
         display.blit(self.logo_image, (self.game.GAME_W/2-80 ,self.game.GAME_H/2 -50))
 
     

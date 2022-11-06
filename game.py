@@ -5,8 +5,8 @@ from states.title import Title
 class Game():
         def __init__(self):
             pygame.init()
-            self.GAME_W,self.GAME_H = 480, 270
-            self.SCREEN_WIDTH,self.SCREEN_HEIGHT = 1280, 720
+            self.GAME_W,self.GAME_H = 500, 280
+            self.SCREEN_WIDTH,self.SCREEN_HEIGHT = 1664, 936
             self.game_canvas = pygame.Surface((self.GAME_W,self.GAME_H))
             self.screen = pygame.display.set_mode((self.SCREEN_WIDTH,self.SCREEN_HEIGHT))
             self.running, self.playing = True, True
@@ -78,7 +78,8 @@ class Game():
             self.dt = now - self.prev_time
             self.prev_time = now
 
-        def draw_text(self, surface, text, color, x, y):
+        def draw_text(self, surface, text, color, x, y,size):
+            self.font= pygame.font.Font(os.path.join(self.font_dir, "PressStart2P-vaV7.ttf"), size)
             text_surface = self.font.render(text, True, color)
             #text_surface.set_colorkey((0,0,0))
             text_rect = text_surface.get_rect()
@@ -100,7 +101,7 @@ class Game():
         def reset_keys(self):
             for action in self.actions:
                 self.actions[action] = False
-
+ 
 
 if __name__ == "__main__":
     g = Game()

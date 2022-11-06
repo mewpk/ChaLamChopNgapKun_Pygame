@@ -8,8 +8,11 @@ class Game_World(State):
     def __init__(self, game):
         State.__init__(self, game)
         self.player = Player(self.game)
-        self.bg_img = pygame.image.load(os.path.join(self.game.assets_dir, "map", "Map.png"))
- 
+        self.enemy = Enemy(self.game)
+        self.game = game
+        self.bg_img = pygame.image.load(os.path.join(
+            self.game.assets_dir, "map", "Map.png")).convert_alpha()
+
     def update(self, delta_time, actions):
         # Check if the game was paused
         if actions["start"]:
@@ -18,15 +21,20 @@ class Game_World(State):
         self.player.update(delta_time, actions)
 
     def render(self, display):
-        display.blit(self.bg_img, (0, 0))
+        
+        display.blit(
+            self.bg_img, (-self.player.position_x, -self.player.position_y))
+        self.enemy.render(display)
         self.player.render(display)
+        
 
 
 class Player():
     def __init__(self, game):
         self.game = game
         self.load_sprites()
-        self.position_x, self.position_y = 200, 200
+        self.position_x, self.position_y = 240, 140
+        self.hp, self.mana = "500", "200"
         self.current_frame, self.last_frame_update = 0, 0
 
     def update(self, delta_time, actions):
@@ -34,13 +42,18 @@ class Player():
         direction_x = actions["right"] - actions["left"]
         direction_y = actions["down"] - actions["up"]
         # Update the position
-        self.position_x += 100 * delta_time * direction_x
-        self.position_y += 100 * delta_time * direction_y
+        self.position_x += 50 * delta_time * direction_x
+        self.position_y += 50 * delta_time * direction_y
+
         # Animate the sprite
         self.animate(delta_time, direction_x, direction_y)
 
     def render(self, display):
-        display.blit(self.curr_image, (self.position_x, self.position_y))
+        self.game.draw_text(display, "HP :" + self.hp,
+                            (241, 66, 99), 50, 25, 8)
+        self.game.draw_text(display, "Mana :" + self.mana,
+                            (85, 138, 180), 50, 40, 8)
+        display.blit(self.curr_image, (240, 140))
 
     def animate(self, delta_time, direction_x, direction_y):
         # Compute how much time has passed since the frame last updated
@@ -51,11 +64,15 @@ class Player():
             return
         # If an image was pressed, use the appropriate list of frames according to direction
         if direction_x:
-            if direction_x > 0: self.curr_anim_list = self.right_sprites
-            else: self.curr_anim_list = self.left_sprites
+            if direction_x > 0:
+                self.curr_anim_list = self.right_sprites
+            else:
+                self.curr_anim_list = self.left_sprites
         if direction_y:
-            if direction_y > 0: self.curr_anim_list = self.front_sprites
-            else: self.curr_anim_list = self.back_sprites
+            if direction_y > 0:
+                self.curr_anim_list = self.front_sprites
+            else:
+                self.curr_anim_list = self.back_sprites
         # Advance the animation if enough time has elapsed
         if self.last_frame_update > .15:
             self.last_frame_update = 0
@@ -82,9 +99,23 @@ class Player():
         self.curr_anim_list = self.front_sprites
 
 
+class Enemy():
+    def __init__(self, game):
+        self.game = game
+        self.load_enemy()
+    
+    def render(self,display):
+        display.blit(self.enemy_image, (0, 0))
+
+    def load_enemy(self):
+        self.enemy_dir = os.path.join(self.game.assets_dir, "enemys")
+        self.enemy_image = pygame.image.load(os.path.join(
+            self.enemy_dir, "Faceset" + ".png")).convert_alpha()
+
 class Gun():
     def __init__(self, game):
         self.game = game
         self.load_gun()
+
     def load_gun(self):
-        self.gun_dir = os.path.join(self.game.assets_dir,"guns")
+        self.gun_dir = os.path.join(self.game.assets_dir, "guns")
