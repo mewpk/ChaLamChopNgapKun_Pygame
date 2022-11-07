@@ -7,25 +7,25 @@ from states.pause_menu import PauseMenu
 class Game_World(State):
     def __init__(self, game):
         State.__init__(self, game)
+        self.game = game
+        self.load_assets()
         self.player = Player(self.game)
         self.enemy = Enemy(self.game)
-        self.game = game
-        self.bg_img = pygame.image.load(os.path.join(
-            self.game.assets_dir, "map", "Map.png")).convert_alpha()
-
     def update(self, delta_time, actions):
         # Check if the game was paused
         if actions["start"]:
             new_state = PauseMenu(self.game)
-            new_state.enter_state()
+            new_state.enter_ssate()
         self.player.update(delta_time, actions)
 
     def render(self, display):
         display.blit(
             self.bg_img, (-self.player.position_x, -self.player.position_y))
-        # self.enemy.render(display)
+        self.enemy.render(display)
         self.player.render(display)
-
+    def load_assets(self):
+        self.bg_img = pygame.image.load(os.path.join(
+            self.game.assets_dir, "map", "Map.png")).convert_alpha()
 
 class Player():
     def __init__(self, game):
@@ -102,10 +102,11 @@ class Player():
 class Enemy():
     def __init__(self, game):
         self.game = game
-        self.load_enemy()
+        self.load_enemy()  
+        self.player = Player(self.game)
 
     def render(self, display):
-        display.blit(self.enemy_image, (100, 100))
+        display.blit(self.enemy_image, (0 ,0))
 
     def load_enemy(self):
         self.enemy_dir = os.path.join(self.game.assets_dir, "enemys")

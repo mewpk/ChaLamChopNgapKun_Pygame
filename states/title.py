@@ -20,6 +20,7 @@ class Title(State):
     def render(self, display):
         display.fill((255,255,255))
         self.game.draw_text(display, "Cha Lam Chop Ngap Kun", (0,0,0), self.game.GAME_W/2, self.game.GAME_H/2,20 )
+        self.game.draw_text(display, "65010731 Patsakorn Thong-un", (0,0,0), self.game.GAME_W/2, self.game.GAME_H/2 + 50,10 )
         display.blit(self.logo_image, (self.game.GAME_W/2-80 ,self.game.GAME_H/2 -50))
 
     
