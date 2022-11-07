@@ -21,12 +21,10 @@ class Game_World(State):
         self.player.update(delta_time, actions)
 
     def render(self, display):
-        
         display.blit(
             self.bg_img, (-self.player.position_x, -self.player.position_y))
-        self.enemy.render(display)
+        # self.enemy.render(display)
         self.player.render(display)
-        
 
 
 class Player():
@@ -99,18 +97,21 @@ class Player():
         self.curr_anim_list = self.front_sprites
 
 
+
+
 class Enemy():
     def __init__(self, game):
         self.game = game
         self.load_enemy()
-    
-    def render(self,display):
-        display.blit(self.enemy_image, (0, 0))
+
+    def render(self, display):
+        display.blit(self.enemy_image, (100, 100))
 
     def load_enemy(self):
         self.enemy_dir = os.path.join(self.game.assets_dir, "enemys")
         self.enemy_image = pygame.image.load(os.path.join(
             self.enemy_dir, "Faceset" + ".png")).convert_alpha()
+
 
 class Gun():
     def __init__(self, game):
